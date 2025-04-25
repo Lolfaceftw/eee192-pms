@@ -35,9 +35,11 @@ while True:
             # print(f"PM1.0: {string_to_hex(data_1, 1)} | PM2.5: {string_to_hex(data_2, 2)} | PM10: {string_to_hex(data_3, 3)} || Unit: ug/m3")
             # print(f"PM1.0: {string_to_hex(data_1, 1)} | PM2.5: {string_to_hex(data_2, 2)} | PM10: {string_to_hex(data_3, 3)} || Unit: ug/m3", file=f)
             # print("-"*10, "No decimal", "-"*10)
+            print(f"PM1.0: {int(data_1, 16)} | PM 2.5: {int(data_2, 16)} | PM 10: {int(data_3, 16)} || Unit: ug/m3")
             print(f"PM1.0: {int(data_1, 16)} | PM 2.5: {int(data_2, 16)} | PM 10: {int(data_3, 16)} || Unit: ug/m3", file=f)
         except:
             print("Error! Bits are short... looping again...")
             print("Error! Bits are short... looping again...", file=f)
+            #time.sleep(TIME_DELAY)
             continue
     time.sleep(TIME_DELAY)
