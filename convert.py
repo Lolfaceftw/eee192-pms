@@ -24,6 +24,7 @@ while True:
     last_line_b = hex_content.split(starting_bits)[::-1][0]
     last_line_str = byte_to_string(last_line_b)
     # !The last line does not include 0x424d
+    # We choose the particles under atmospheric conditions per the datasheet.
     data_1 = last_line_str[16:20]
     data_2 = last_line_str[20:24]
     data_3 = last_line_str[24:28]
