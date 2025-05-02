@@ -9,6 +9,15 @@ parser.add_argument("-t", "--time", type=int, default=1.01)
 args = vars(parser.parse_args())
 TIME_DELAY = args["time"]
 filename = args["output"]
+
+# --- THRESHOLD RISK ---
+PM_1 = 10 
+PM_2 = 15
+PM_10 = 45
+
+UP = "\x1B[3A"
+CLR = "\x1B[0K"
+
 def byte_to_string(line: bytes) -> str:
     return line.replace(starting_bits, b'\n' + starting_bits).decode("utf-8")
 
@@ -21,7 +30,6 @@ def byte_to_string(line: bytes) -> str:
 def clear_line(*args, **kwargs) -> None:
     """ Pretty much just clears the line so it doesn't leave previous characters """
     print(" "*60, end="\r")
-
 while True:
     with open(filename, 'rb') as f:
         content = f.read()
@@ -42,12 +50,19 @@ while True:
             # print(f"PM1.0: {string_to_hex(data_1, 1)} | PM2.5: {string_to_hex(data_2, 2)} | PM10: {string_to_hex(data_3, 3)} || Unit: ug/m3")
             # print(f"PM1.0: {string_to_hex(data_1, 1)} | PM2.5: {string_to_hex(data_2, 2)} | PM10: {string_to_hex(data_3, 3)} || Unit: ug/m3", file=f)
             # print("-"*10, "No decimal", "-"*10)
-            clear_line()
-            print(f"PM1.0: {int(data_1, 16)} | PM 2.5: {int(data_2, 16)} | PM 10: {int(data_3, 16)} || Unit: ug/m3", end="\r")
-            print(f"PM1.0: {int(data_1, 16)} | PM 2.5: {int(data_2, 16)} | PM 10: {int(data_3, 16)} || Unit: ug/m3", file=f)
-        except:
-            print("Error! Bits are short... looping again...", end="\r")
+            pm1_val = int(data_1, 16)
+            pm2_5_val = int(data_2, 16)
+            pm10_val = int(data_3, 16)
+            print(f"{UP}HEALTH | PM 1.0: {'SAFE' if pm1_val < PM_1 else 'RISK'} | PM 2.5: {'SAFE' if pm2_5_val < PM_2 else 'RISK'} | PM 10: {'SAFE' if pm10_val < PM_10 else 'RISK'}{CLR}")
+            print(f"INFO   | PM 1.0: {pm1_val}   | PM 2.5: {pm2_5_val}  | PM 10: {pm10_val} || Unit: ug/m3{CLR}")
+            print(f"STATUS | Receiving data...{CLR}")
+            print(f"PM 1.0: {pm1_val} | PM 2.5: {pm2_5_val} | PM 10: {pm10_val} || Unit: ug/m3", file=f)
+        except Exception as e:
+            #print(e)
+            print("\x1b[10GError! Bits are short... looping again...{CLR}")
             print("Error! Bits are short... looping again...", file=f)
-            #time.sleep(TIME_DELAY)
+            time.sleep(TIME_DELAY)
             continue
+
     time.sleep(TIME_DELAY)
+
