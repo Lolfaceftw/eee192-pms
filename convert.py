@@ -1,9 +1,14 @@
+import argparse
 import binascii
 import time
 
-TIME_DELAY = 1.01
+parser = argparse.ArgumentParser()
 
-filename = "putty.log"
+parser.add_argument("-o", "--output", type=str, default="putty.log")
+parser.add_argument("-t", "--time", type=int, default=1.01)
+args = vars(parser.parse_args())
+TIME_DELAY = args["time"]
+filename = args["output"]
 def byte_to_string(line: bytes) -> str:
     return line.replace(starting_bits, b'\n' + starting_bits).decode("utf-8")
 
@@ -13,7 +18,9 @@ def byte_to_string(line: bytes) -> str:
 #     second_part = string[2:4]
 #     #print(f"Data {data_num} Hex: {string} | {first_part} | {second_part}")
 #     return f"{int(first_part, 16)}.{int(second_part, 16)}"
-
+def clear_line(*args, **kwargs) -> None:
+    """ Pretty much just clears the line so it doesn't leave previous characters """
+    print(" "*60, end="\r")
 
 while True:
     with open(filename, 'rb') as f:
@@ -35,10 +42,11 @@ while True:
             # print(f"PM1.0: {string_to_hex(data_1, 1)} | PM2.5: {string_to_hex(data_2, 2)} | PM10: {string_to_hex(data_3, 3)} || Unit: ug/m3")
             # print(f"PM1.0: {string_to_hex(data_1, 1)} | PM2.5: {string_to_hex(data_2, 2)} | PM10: {string_to_hex(data_3, 3)} || Unit: ug/m3", file=f)
             # print("-"*10, "No decimal", "-"*10)
-            print(f"PM1.0: {int(data_1, 16)} | PM 2.5: {int(data_2, 16)} | PM 10: {int(data_3, 16)} || Unit: ug/m3")
+            clear_line()
+            print(f"PM1.0: {int(data_1, 16)} | PM 2.5: {int(data_2, 16)} | PM 10: {int(data_3, 16)} || Unit: ug/m3", end="\r")
             print(f"PM1.0: {int(data_1, 16)} | PM 2.5: {int(data_2, 16)} | PM 10: {int(data_3, 16)} || Unit: ug/m3", file=f)
         except:
-            print("Error! Bits are short... looping again...")
+            print("Error! Bits are short... looping again...", end="\r")
             print("Error! Bits are short... looping again...", file=f)
             #time.sleep(TIME_DELAY)
             continue
