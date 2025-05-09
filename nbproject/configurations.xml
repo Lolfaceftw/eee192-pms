@@ -23,6 +23,8 @@
       <itemPath>platform/pm_usart.c</itemPath>
       <itemPath>platform/systick.c</itemPath>
       <itemPath>platform/usart.c</itemPath>
+      <itemPath>pms_parser.h</itemPath>
+      <itemPath>pms_parser.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -38,7 +40,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>nEdbgTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>4.45</languageToolchainVersion>
+        <languageToolchainVersion>4.60</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>

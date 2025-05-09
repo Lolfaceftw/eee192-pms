@@ -40,6 +40,6 @@ while True:
         except:
             print("Error! Bits are short... looping again...")
             print("Error! Bits are short... looping again...", file=f)
-            #time.sleep(TIME_DELAY)
+            time.sleep(TIME_DELAY)
             continue
     time.sleep(TIME_DELAY)
