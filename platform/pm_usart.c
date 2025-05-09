@@ -153,7 +153,7 @@ void pm_platform_usart_init(void){
 	 *       for UART one baud period corresponds to one bit.
 	 */
 	pm_ctx_uart.cfg.ts_idle_timeout.nr_sec  = 0;
-	pm_ctx_uart.cfg.ts_idle_timeout.nr_nsec = 781250;
+	pm_ctx_uart.cfg.ts_idle_timeout.nr_nsec = 100000000;
 	
 	/*
 	 * Third-to-the-last setup:
